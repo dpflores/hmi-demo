@@ -1,24 +1,46 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
 
-function App() {
+
+import { Test } from './components/test';
+
+import * as utils from './components/utils';
+import { Fragment } from 'react';
+
+import { useState } from 'react';
+
+import TicTacToe from './components/tictactoe';
+
+export function App() {
+  const [count, setCount] = useState(0);
+
+  function handleClick() {
+    setCount(count + 1);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    // para envolver varios componentes usamos el Fragmente
+    // tmb se podría usar algo como un div, pero tiene implicación visual
+    // se puede usar <> </> pero no es compatible con todos los navegadores 
+    <Fragment> 
+      <Test />
+      <utils.MyButton />
+      <utils.MyButtonCounter count={count} onClick={handleClick} />
+      <utils.MyButtonCounter count={count} onClick={handleClick} />
+      <h1> {utils.user.name} </h1>
+      <img
+        className="avatar"
+        src={utils.user.imageUrl}
+        alt={'Photo of ' + utils.user.name}
+        style={{
+          width: utils.user.imageSize,
+          height: utils.user.imageSize
+        }}
+      />
+      <utils.ShoppingList/>
+      <TicTacToe />
+      <TicTacToe />
+    </Fragment>
   );
 }
 
