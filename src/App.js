@@ -10,6 +10,10 @@ import { Fragment } from 'react';
 import { useState } from 'react';
 
 import TicTacToe from './components/tictactoe';
+import MyAnimation from './components/animation';
+import RectangleImage from './components/image1';
+
+import image1 from './images/tanque.png';
 
 export function App() {
   const [count, setCount] = useState(0);
@@ -40,6 +44,10 @@ export function App() {
       <utils.ShoppingList/>
       <TicTacToe />
       <TicTacToe />
+      <MyAnimation />
+
+      <RectangleImage imageUrl={image1} initialTop={380} />
+    
     </Fragment>
   );
 }
