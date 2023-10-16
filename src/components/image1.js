@@ -6,28 +6,101 @@ import sensor3Url from './images/sensor_cap.png';
 import sensor4Url from './images/sensor_temp.png';
 import tankUrl from './images/tanque.png';
 import motorUrl from './images/motor-electrico.png';
-
+import iolinkUrl from './images/iolink.png';
 import beltUrl from './images/belt.png';
 import objectUrl from './images/object.png';
+import acmeUrl from './images/logo_acme.png';
+
+import { useEffect } from 'react';
+
 
 export default Draw;
 
 function Draw(){
+
+
+  const [data_json, setData] = useState({});
+
+  useEffect(() => {
+    const fetchData = () => {
+      fetch('http://161.132.39.167:12083/data_demo')
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          setData(data);
+          // setPosts(data);
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
+    };
+
+    // Ejecutar fetchData inicialmente
+    fetchData();
+
+    // Configurar un intervalo para ejecutar fetchData cada 500 milisegundos
+    const intervalId = setInterval(fetchData, 500);
+
+    // Limpieza cuando el componente se desmonta
+    return () => clearInterval(intervalId);
+  }, []);
+
   return (
     <Fragment>
-      <div>
-      <TankSide width={25} height={50} left={70} top={30}/>
-      <MotorSide width={30} height={50} left={30} top={30}/>
-      <BeltSide width={30} height={50} left={0} top={30}/>
-      </div>
+      <Header width={17} height={10} left={0} top={0}/>
+      <Connections width={100} height={25} left={0} top={10}/>
+      <TankSide width={25} height={50} left={70} top={30}
+      led2={data_json.led2} led3={data_json.led3} text5={data_json.text5}/>
+      <MotorSide width={30} height={50} left={30} top={30}
+      text1={data_json.text1} text2={data_json.text2} text3={data_json.text3} text4={data_json.text4}/>
+      <BeltSide width={30} height={50} left={0} top={30} text0={data_json.text0}
+      led0={data_json.led0} led1={data_json.led1}/>
+  
       
 
     </Fragment>
   )
 }
 
-function BeltSide({width, height,top, left}){
+function Header({width, height,top, left}){
+  return(
+    <div style={{ position: 'absolute', width: `${width}%`, height:`${height}%`, top: `${top}%`, left: `${left}%`}}>
+    <img src={acmeUrl} alt="Background" style={{position: 'absolute', width: '100%', height: '100%'}} />
+    </div>
+  )
 
+}
+
+function Connections({width, height,top, left}){
+
+  return(
+
+    <Fragment>
+      <div style={{ position: 'absolute', width: `${width}%`, height:`${height}%`, top: `${top}%`, left: `${left}%`}}>
+        
+        <Line left={11.5} top={20} thickness={1} length={130} orientation={true}/>
+        <Line left={11.5} top={20} thickness={8} length={25} orientation={false}/>
+
+        <Line left={26.5} top={45} thickness={1} length={150} orientation={true}/>
+        <Line left={26.5} top={45} thickness={8} length={10} orientation={false}/>
+
+        <Line left={44.5} top={45} thickness={1} length={150} orientation={true}/>
+        <Line left={34.5} top={45} thickness={8} length={10} orientation={false}/>  
+
+        <Line left={82} top={20} thickness={1} length={60} orientation={true}/>
+        <Line left={35} top={20} thickness={8} length={47} orientation={false}/>  
+
+
+        <IOLinkImage/>
+        </div> 
+    </Fragment>
+    
+  )
+}
+
+
+function BeltSide({width, height,top, left, led0, led1, text0}){
+  // console.log(text0);
   return(
   <Fragment>
       <div style={{ position: 'absolute', width: `${width}%`, height:`${height}%`, top: `${top}%`, left: `${left}%`}}>
@@ -37,18 +110,18 @@ function BeltSide({width, height,top, left}){
       <SensorImage4 size={10} />
 
       <Label label="DO1" top="55" left="98" color="orange" fontWeight="bold"/>
-      <Led top="54" left="110" size="20px" isOn={true} />
+      <Led top="54" left="110" size="20px" isOn={led0} />
 
       <TextBubble text="TIT"size={13} top={38} left={96} />
       <Label label="IG6083" top="40" left="113" color="black" fontWeight="bold" fontSize={25}/>
 
 
       <Label label="DO1" top="45" left="47" color="orange" fontWeight="bold"/>
-      <Led top="45" left="65" size="20px" isOn={true} />
+      <Led top="45" left="65" size="20px" isOn={led1} />
 
 
       <Label label="Temp" top="35" left="47" color="orange" fontWeight="bold"/>
-      <TextBox top="35" left="60" length="20" height="6" value={0} units="°C"/>
+      <TextBox top="35" left="60" length="20" height="6" value={text0} units="°C"/>
 
       <TextBubble text="TIT"size={13} top={20} left={45} />
       <Label label="TW2000" top="20" left="60" color="black" fontWeight="bold" fontSize={25}/>
@@ -59,20 +132,20 @@ function BeltSide({width, height,top, left}){
   )
 }
 
-function TankSide({width, height,top, left}){
+function TankSide({width, height,top, left, led2, led3, text5}){
 
   return (
     <Fragment>
       <div style={{ position: 'absolute', width: `${width}%`, height:`${height}%`, top: `${top}%`, left: `${left}%`}}>
-      <TankImage />
+      <TankImage text5={text5} />
       <TextBubble text="LIT"size={13} top={-15} left={65} />
 
 
-      <Label label="DO1" top="-35" left="70" color="orange" fontWeight="bold"/>
-      <Led top="-36" left="80" size="20px" isOn={true} />
+      <Label label="DO1" top="-35" left="65" color="orange" fontWeight="bold"/>
+      <Led top="-36" left="80" size="20px" isOn={led2} />
 
-      <Label label="DO2" top="-25" left="70" color="orange" fontWeight="bold"/>
-      <Led top="-26" left="80" size="20px" isOn={true} />
+      <Label label="DO2" top="-25" left="65" color="orange" fontWeight="bold"/>
+      <Led top="-26" left="80" size="20px" isOn={led3} />
 
       </div>
       
@@ -82,23 +155,23 @@ function TankSide({width, height,top, left}){
 }
 
 
-function MotorSide({width, height,top, left}){
+function MotorSide({width, height,top, left, text1,text2,text3,text4}){
   return(
   <Fragment>
       <div style={{ position: 'absolute', width: `${width}%`, height:`${height}%`, top: `${top}%`, left: `${left}%`}}>
     <MotorImage />
 
     <Label label="Temp" top="50" left="65" color="orange" fontWeight="bold"/>
-    <TextBox top="50" left="80" length="30" height="6" value={0} units="°C"/>
+    <TextBox top="50" left="80" length="30" height="6" value={text1} units="°C"/>
 
     <Label label="a RMS" top="40" left="65" color="orange"fontWeight="bold"/>
-    <TextBox top="40" left="80" length="30" height="6" value={0} units="°C"/>
+    <TextBox top="40" left="80" length="30" height="6" value={text2} units="°C"/>
 
     <Label label="v RMS" top="30" left="65" color="orange"fontWeight="bold"/>
-    <TextBox top="30" left="80" length="30" height="6" value={0} units="m/s"/>
+    <TextBox top="30" left="80" length="30" height="6" value={text3} units="m/s"/>
 
     <Label label="a Peak" top="20" left="65" color="orange"fontWeight="bold"/>
-    <TextBoxSquared top="20" left="80" length="30" height="6" value={0} units="m/s"/>
+    <TextBoxSquared top="20" left="80" length="30" height="6" value={text4} units="m/s"/>
 
     <TextBubble text="AIT1"size={13} top={0} left={65}/>
     <Label label="VVB021" top="3" left="85" color="black" fontWeight="bold" fontSize={25}/>
@@ -106,6 +179,17 @@ function MotorSide({width, height,top, left}){
     </div>
     
   </Fragment>)
+}
+
+
+function IOLinkImage() {
+  
+  return(
+    <div style={{ position: 'absolute', width: `15%`, height:`80%`, top: '0%', left: '30%' }}>
+    <img src={iolinkUrl} alt="Background" style={{position: 'absolute', width: '100%', height: '100%'}} />
+
+    </div>
+  )
 }
 
 
@@ -130,16 +214,18 @@ function MotorImage() {
     )
 }
 
-function TankImage() {
+function TankImage({text5}) {
     // const [top, setTop] = useState(initial/Top);
-    const [height, setHeight] = useState(15);
+    // const [height, setHeight] = useState(15);
 
-    const handleHeightChange = (e) => {
-      const newHeight = parseInt(e.target.value, 10);
-      setHeight(newHeight);
-    };
+    // const handleHeightChange = (e) => {
+    //   const newHeight = parseInt(e.target.value, 10);
+    //   setHeight(newHeight);
+    // };
 
-    
+    let max = 100.0;  // Max value for the tank height
+
+    let height = text5*52/max;
 
     return (
       <div style={{ position: 'absolute', width: `100%`, height:`100%` }}>
@@ -147,7 +233,7 @@ function TankImage() {
         <img src={tankUrl} alt="Background" style={{ width: '100%', height: '100%' }} />
 
         <SensorImage size={28}/>
-        <TextBox left="35" length="30" value={height} units="mm"/>
+        <TextBox left="35" length="30" value={text5} units="mm"/>
         <Label label="O1D103" top="70" left="35" color="black" fontWeight="bold" fontSize={25}/>
         <div
         style={{
@@ -160,14 +246,14 @@ function TankImage() {
             borderRadius: '15px', // Bordes redondeados
         }}
         />
-        <input
+        {/* <input
         type="range"
         min="0"
         max='52' // Puedes ajustar el rango máximo según tus necesidades
         value={height}
         onChange={handleHeightChange}
         style={{ width: '100%' }}
-            />
+            /> */}
     </div>
     );
   };
@@ -268,6 +354,7 @@ function TankImage() {
   }
 
   function TextBox({value, units, length, height, left, top}){
+  
     return (
     <div
       style={{
@@ -339,6 +426,7 @@ function TextBubble({ text, size, top, left}) {
 
 
 function Led({left, top, size, isOn}){
+
   const ledColor = isOn ? 'green' : 'red';
 
 
@@ -363,14 +451,17 @@ function Led({left, top, size, isOn}){
 
 
 
-// function Line({ thickness, length, orientation }) {
-//   const lineStyle = {
-//     width: orientation ? thickness + 'px' : length + 'px',
-//     height: orientation ? length + 'px' : thickness + 'px',
-//     backgroundColor: 'orange', // Cambiamos el color a naranja
-//   };
+function Line({left, top, thickness, length, orientation }) {
+  const lineStyle = {
+    left: `${left}%`,
+    top: `${top}%`,
+    position: 'absolute',
+    width: orientation ? thickness + '%' : length + '%',
+    height: orientation ? length + '%' : thickness + '%',
+    backgroundColor: 'orange', // Cambiamos el color a naranja
+  };
 
-//   return <div style={lineStyle}></div>;
-// }
+  return <div style={lineStyle}></div>;
+}
 
 
