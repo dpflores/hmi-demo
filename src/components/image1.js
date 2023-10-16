@@ -112,21 +112,21 @@ function BeltSide({width, height,top, left, led0, led1, text0}){
       <SensorImage4 size={10} />
 
       <Label label="DO1" top="55" left="98" color="orange" fontWeight="bold"/>
-      <Led top="54" left="110" size="30px" isOn={led0} />
+      <Led top="54" left="110" size="10" isOn={led0} />
 
       <TextBubble text="TIT"size={10} top={38} left={96} />
-      <Label label="IG6086" top="40" left="113" color="black" fontWeight="bold" fontSize={25}/>
+      <Label label="IG6086" top="40" left="113" color="black" fontWeight="bold" fontSize={1.5}/>
 
 
       <Label label="DO1" top="45" left="47" color="orange" fontWeight="bold"/>
-      <Led top="45" left="65" size="30px" isOn={led1} />
+      <Led top="45" left="65" size="10" isOn={led1} />
 
 
       <Label label="Temp" top="35" left="47" color="orange" fontWeight="bold"/>
       <TextBox top="35" left="60" length="20" height="6" value={text0} units="°C"/>
 
       <TextBubble text="TIT"size={10} top={20} left={45} />
-      <Label label="TW2000" top="20" left="60" color="black" fontWeight="bold" fontSize={25}/>
+      <Label label="TW2000" top="20" left="60" color="black" fontWeight="bold" fontSize={1.4}/>
 
       </div>
       
@@ -144,10 +144,10 @@ function TankSide({width, height,top, left, led2, led3, text5}){
 
 
       <Label label="DO1" top="-35" left="65" color="orange" fontWeight="bold"/>
-      <Led top="-36" left="80" size="30px" isOn={led2} />
+      <Led top="-38" left="80" size="10" isOn={led2} />
 
       <Label label="DO2" top="-25" left="65" color="orange" fontWeight="bold"/>
-      <Led top="-26" left="80" size="30px" isOn={led3} />
+      <Led top="-26" left="80" size="10" isOn={led3} />
 
       </div>
       
@@ -179,7 +179,7 @@ function MotorSide({width, height,top, left, text01, text1,text2,text3,text4}){
     <TextBoxSquared top="20" left="80" length="30" height="6" value={text4} units="m/s"/>
 
     <TextBubble text="AIT1"size={10} top={0} left={65}/>
-    <Label label="VVB021" top="3" left="85" color="black" fontWeight="bold" fontSize={25}/>
+    <Label label="VVB021" top="3" left="85" color="black" fontWeight="bold" fontSize={1.5}/>
 
     </div>
     
@@ -241,7 +241,7 @@ function TankImage({text5}) {
 
         <SensorImage size={28}/>
         <TextBox left="35" length="30" value={text5} units="mm"/>
-        <Label label="O1D103" top="70" left="35" color="black" fontWeight="bold" fontSize={25}/>
+        <Label label="O1D103" top="70" left="40" color="black" fontWeight="bold" fontSize={1.5}/>
         <div
         style={{
             position: 'absolute',
@@ -349,8 +349,10 @@ function TankImage({text5}) {
       top: `${top}%`,
       left: `${left}%`,
       color: `${color}`,
-      marginRight: '10px',
-      fontSize: `${fontSize}px`,
+      marginRight: '5%',
+      // fontSize: `${fontSize}em`,
+      // fontSize: `${fontSize}vh`|| '3vh',
+      fontSize: '2.5vh',
       fontWeight: `${fontWeight}`,
     };
   
@@ -374,7 +376,8 @@ function TankImage({text5}) {
         color: 'black', // Color del texto
         backgroundColor: 'white', // Fondo blanco
         border: '1px solid black', // Borde de 1 píxel de ancho, color negro
-        height: `${height}%`
+        height: `${height}%`,
+        fontSize: '2vh',
       }}
     >
       {value} {units}
@@ -400,7 +403,8 @@ function TankImage({text5}) {
         color: 'black', // Color del texto
         backgroundColor: 'white', // Fondo blanco
         border: '1px solid black', // Borde de 1 píxel de ancho, color negro
-        height: `${height}%`
+        height: `${height}%`,
+        fontSize: '2vh',
       }}
     >
       {value} {units}<sup style={unitsStyle}>2</sup>
@@ -423,8 +427,9 @@ function TextBubble({ text, size, top, left}) {
         backgroundColor: 'white', // Fondo blanco
         border: '2px solid black', // Borde de 2 píxeles de ancho, color negro
         textAlign: 'center',
-        lineHeight: '40px', // Centra verticalmente el contenido del círculo
+        lineHeight: '250%', // Centra verticalmente el contenido del círculo
         color: 'black', // Color del texto
+        fontSize: '2vh'
       }}
     >
       {text}
@@ -444,8 +449,8 @@ function Led({left, top, size, isOn}){
         position: 'absolute',
         left: `${left}%`,
         top: `${top}%`,
-        width: size || '30px',
-        height: size || '30px',
+        width: `${size}%`|| '30px',
+        height: `${size}%` || '30px',
         backgroundColor: ledColor,
         borderRadius: '50%',
         // border: '4px solid black', // Borde de 1 píxel de ancho, color negro
@@ -465,8 +470,8 @@ function Led({left, top, size, isOn}){
           position: 'absolute',
           left: `${left}%`,
           top: `${top}%`,
-          width: size || '20px',
-          height: size || '20px',
+          width: `${size}%` || '20px',
+          height: `${size}%` || '20px',
           backgroundColor: ledColor,
           borderRadius: '50%',
           // border: '4px solid black', // Borde de 1 píxel de ancho, color negro
