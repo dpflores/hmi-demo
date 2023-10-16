@@ -114,7 +114,7 @@ function BeltSide({width, height,top, left, led0, led1, text0}){
       <Label label="DO1" top="55" left="98" color="orange" fontWeight="bold"/>
       <Led top="54" left="110" size="10" isOn={led0} />
 
-      <TextBubble text="TIT"size={10} top={38} left={96} />
+      <TextBubble text="ZT"size={10} top={38} left={96} />
       <Label label="IG6086" top="40" left="113" color="black" fontWeight="bold" fontSize={1.5}/>
 
 
@@ -250,7 +250,7 @@ function TankImage({text5}) {
             width: '85%',
             height: `${height}%`, // Altura fija del rectángulo
             backgroundColor: 'rgba(255, 0, 0, 0.8)', // Color de fondo del rectángulo
-            borderRadius: '15px', // Bordes redondeados
+            borderRadius: '5%', // Bordes redondeados
         }}
         />
         {/* <input
@@ -375,7 +375,7 @@ function TankImage({text5}) {
         textAlign: 'center', // Centra el texto horizontalmente
         color: 'black', // Color del texto
         backgroundColor: 'white', // Fondo blanco
-        border: '1px solid black', // Borde de 1 píxel de ancho, color negro
+        border: '0.1em solid black', // Borde de 1 píxel de ancho, color negro
         height: `${height}%`,
         fontSize: '2vh',
       }}
@@ -402,7 +402,7 @@ function TankImage({text5}) {
         textAlign: 'center', // Centra el texto horizontalmente
         color: 'black', // Color del texto
         backgroundColor: 'white', // Fondo blanco
-        border: '1px solid black', // Borde de 1 píxel de ancho, color negro
+        border: '0.1em solid black', // Borde de 1 píxel de ancho, color negro
         height: `${height}%`,
         fontSize: '2vh',
       }}
@@ -425,7 +425,7 @@ function TextBubble({ text, size, top, left}) {
         height: `${size}%`, // Ajusta la altura del círculo según tus necesidades
         borderRadius: '50%', // Esto crea un círculo
         backgroundColor: 'white', // Fondo blanco
-        border: '2px solid black', // Borde de 2 píxeles de ancho, color negro
+        border: '0.2em solid black', // Borde de 2 píxeles de ancho, color negro
         textAlign: 'center',
         lineHeight: '250%', // Centra verticalmente el contenido del círculo
         color: 'black', // Color del texto
