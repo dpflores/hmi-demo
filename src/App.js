@@ -11,7 +11,7 @@ import { useState } from 'react';
 
 import TicTacToe from './components/tictactoe';
 import MyAnimation from './components/animation';
-import RectangleImage from './components/image1';
+import Draw from './components/image1';
 
 import image1 from './images/tanque.png';
 
@@ -27,8 +27,8 @@ export function App() {
     // tmb se podría usar algo como un div, pero tiene implicación visual
     // se puede usar <> </> pero no es compatible con todos los navegadores 
     <Fragment> 
-      <Test />
-      <utils.MyButton />
+      {/* <Test /> */}
+      {/* <utils.MyButton />
       <utils.MyButtonCounter count={count} onClick={handleClick} />
       <utils.MyButtonCounter count={count} onClick={handleClick} />
       <h1> {utils.user.name} </h1>
@@ -44,9 +44,9 @@ export function App() {
       <utils.ShoppingList/>
       <TicTacToe />
       <TicTacToe />
-      <MyAnimation />
+      <MyAnimation /> */}
 
-      <RectangleImage imageUrl={image1} initialTop={380} />
+      <Draw />
     
     </Fragment>
   );
