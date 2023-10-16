@@ -25,7 +25,7 @@ function Draw(){
 
   useEffect(() => {
     const fetchData = () => {
-      fetch('http://161.132.39.167:12083/data_demo')
+      fetch('https://flowdemo.acmecia.com/data_demo')
         .then((res) => res.json())
         .then((data) => {
           console.log(data);
