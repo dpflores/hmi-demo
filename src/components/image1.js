@@ -10,6 +10,8 @@ import iolinkUrl from './images/iolink.png';
 import beltUrl from './images/belt.png';
 import objectUrl from './images/object.png';
 import acmeUrl from './images/logo_acme.png';
+import ledonUrl from './images/led_on.png';
+import ledoffUrl from './images/led_off.png';
 
 import { useEffect } from 'react';
 
@@ -39,7 +41,7 @@ function Draw(){
     fetchData();
 
     // Configurar un intervalo para ejecutar fetchData cada 500 milisegundos
-    const intervalId = setInterval(fetchData, 500);
+    const intervalId = setInterval(fetchData, 200);
 
     // Limpieza cuando el componente se desmonta
     return () => clearInterval(intervalId);
@@ -50,10 +52,10 @@ function Draw(){
       <Header width={17} height={10} left={0} top={0}/>
       <Connections width={100} height={25} left={0} top={10}/>
       <TankSide width={25} height={50} left={70} top={30}
-      led2={data_json.led2} led3={data_json.led3} text5={data_json.text5}/>
-      <MotorSide width={30} height={50} left={30} top={30}
-      text1={data_json.text1} text2={data_json.text2} text3={data_json.text3} text4={data_json.text4}/>
-      <BeltSide width={30} height={50} left={0} top={30} text0={data_json.text0}
+      led2={data_json.led2} led3={data_json.led3*100} text5={Math.round(data_json.text5*100)/100}/>
+      <MotorSide width={30} height={50} left={30} top={30} text01={Math.round(data_json.text01*100)/100}
+      text1={Math.round(data_json.text1*100)/100} text2={Math.round(data_json.text2*100)/100} text3={Math.round(data_json.text3*100)/100} text4={Math.round(data_json.text4*100)/100}/>
+      <BeltSide width={30} height={50} left={0} top={30} text0={Math.round(data_json.text0*100)/100}
       led0={data_json.led0} led1={data_json.led1}/>
   
       
@@ -110,20 +112,20 @@ function BeltSide({width, height,top, left, led0, led1, text0}){
       <SensorImage4 size={10} />
 
       <Label label="DO1" top="55" left="98" color="orange" fontWeight="bold"/>
-      <Led top="54" left="110" size="20px" isOn={led0} />
+      <Led top="54" left="110" size="30px" isOn={led0} />
 
-      <TextBubble text="TIT"size={13} top={38} left={96} />
-      <Label label="IG6083" top="40" left="113" color="black" fontWeight="bold" fontSize={25}/>
+      <TextBubble text="TIT"size={10} top={38} left={96} />
+      <Label label="IG6086" top="40" left="113" color="black" fontWeight="bold" fontSize={25}/>
 
 
       <Label label="DO1" top="45" left="47" color="orange" fontWeight="bold"/>
-      <Led top="45" left="65" size="20px" isOn={led1} />
+      <Led top="45" left="65" size="30px" isOn={led1} />
 
 
       <Label label="Temp" top="35" left="47" color="orange" fontWeight="bold"/>
       <TextBox top="35" left="60" length="20" height="6" value={text0} units="°C"/>
 
-      <TextBubble text="TIT"size={13} top={20} left={45} />
+      <TextBubble text="TIT"size={10} top={20} left={45} />
       <Label label="TW2000" top="20" left="60" color="black" fontWeight="bold" fontSize={25}/>
 
       </div>
@@ -138,14 +140,14 @@ function TankSide({width, height,top, left, led2, led3, text5}){
     <Fragment>
       <div style={{ position: 'absolute', width: `${width}%`, height:`${height}%`, top: `${top}%`, left: `${left}%`}}>
       <TankImage text5={text5} />
-      <TextBubble text="LIT"size={13} top={-15} left={65} />
+      <TextBubble text="LIT"size={10} top={-15} left={65} />
 
 
       <Label label="DO1" top="-35" left="65" color="orange" fontWeight="bold"/>
-      <Led top="-36" left="80" size="20px" isOn={led2} />
+      <Led top="-36" left="80" size="30px" isOn={led2} />
 
       <Label label="DO2" top="-25" left="65" color="orange" fontWeight="bold"/>
-      <Led top="-26" left="80" size="20px" isOn={led3} />
+      <Led top="-26" left="80" size="30px" isOn={led3} />
 
       </div>
       
@@ -155,17 +157,20 @@ function TankSide({width, height,top, left, led2, led3, text5}){
 }
 
 
-function MotorSide({width, height,top, left, text1,text2,text3,text4}){
+function MotorSide({width, height,top, left, text01, text1,text2,text3,text4}){
   return(
   <Fragment>
       <div style={{ position: 'absolute', width: `${width}%`, height:`${height}%`, top: `${top}%`, left: `${left}%`}}>
     <MotorImage />
 
+    <Label label="Crest" top="60" left="65" color="orange" fontWeight="bold"/>
+    <TextBox top="60" left="80" length="30" height="6" value={text01} units=""/>
+
     <Label label="Temp" top="50" left="65" color="orange" fontWeight="bold"/>
     <TextBox top="50" left="80" length="30" height="6" value={text1} units="°C"/>
 
     <Label label="a RMS" top="40" left="65" color="orange"fontWeight="bold"/>
-    <TextBox top="40" left="80" length="30" height="6" value={text2} units="°C"/>
+    <TextBox top="40" left="80" length="30" height="6" value={text2} units="m/s"/>
 
     <Label label="v RMS" top="30" left="65" color="orange"fontWeight="bold"/>
     <TextBox top="30" left="80" length="30" height="6" value={text3} units="m/s"/>
@@ -173,7 +178,7 @@ function MotorSide({width, height,top, left, text1,text2,text3,text4}){
     <Label label="a Peak" top="20" left="65" color="orange"fontWeight="bold"/>
     <TextBoxSquared top="20" left="80" length="30" height="6" value={text4} units="m/s"/>
 
-    <TextBubble text="AIT1"size={13} top={0} left={65}/>
+    <TextBubble text="AIT1"size={10} top={0} left={65}/>
     <Label label="VVB021" top="3" left="85" color="black" fontWeight="bold" fontSize={25}/>
 
     </div>
@@ -223,9 +228,11 @@ function TankImage({text5}) {
     //   setHeight(newHeight);
     // };
 
-    let max = 100.0;  // Max value for the tank height
+    let max = 2000.0;  // Max value for the tank height
 
-    let height = text5*52/max;
+    let height = 52 - text5*52/max;
+
+  
 
     return (
       <div style={{ position: 'absolute', width: `100%`, height:`100%` }}>
@@ -409,6 +416,7 @@ function TextBubble({ text, size, top, left}) {
         // display: 'inline-block',
         top: `${top}%`,
         left:`${left}%`,
+        // paddingTop: '5%',
         width: `${size}%`, // Ajusta el ancho del círculo según tus necesidades
         height: `${size}%`, // Ajusta la altura del círculo según tus necesidades
         borderRadius: '50%', // Esto crea un círculo
@@ -429,23 +437,48 @@ function Led({left, top, size, isOn}){
 
   const ledColor = isOn ? 'green' : 'red';
 
-
+  if (isOn){
   return (
 
       <div style={{
         position: 'absolute',
         left: `${left}%`,
         top: `${top}%`,
-        width: size || '20px',
-        height: size || '20px',
+        width: size || '30px',
+        height: size || '30px',
         backgroundColor: ledColor,
         borderRadius: '50%',
-        border: '4px solid black', // Borde de 1 píxel de ancho, color negro
+        // border: '4px solid black', // Borde de 1 píxel de ancho, color negro
         
     
-      }}></div>
+      }}>
+        <img src={ledonUrl} alt="Background" style={{position: 'absolute', width: '100%', height: '100%'}} />
+      </div>
 
   );
+    }
+
+    else {
+      return (
+
+        <div style={{
+          position: 'absolute',
+          left: `${left}%`,
+          top: `${top}%`,
+          width: size || '20px',
+          height: size || '20px',
+          backgroundColor: ledColor,
+          borderRadius: '50%',
+          // border: '4px solid black', // Borde de 1 píxel de ancho, color negro
+          
+      
+        }}>
+          <img src={ledoffUrl} alt="Background" style={{position: 'absolute', width: '100%', height: '100%'}} />
+        </div>
+  
+    );
+    }
+
 }
 
 

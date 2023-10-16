@@ -2,26 +2,19 @@
 import './App.css';
 
 
-import { Test } from './components/test';
+// import { Test } from './components/test';
 
-import * as utils from './components/utils';
+// import * as utils from './components/utils';
 import { Fragment } from 'react';
 
-import { useState } from 'react';
+// import { useState } from 'react';
 
-import TicTacToe from './components/tictactoe';
-import MyAnimation from './components/animation';
+// import TicTacToe from './components/tictactoe';
+// import MyAnimation from './components/animation';
 import Draw from './components/image1';
 
-import image1 from './images/tanque.png';
 
 export function App() {
-  const [count, setCount] = useState(0);
-
-  function handleClick() {
-    setCount(count + 1);
-  }
-
   return (
     // para envolver varios componentes usamos el Fragmente
     // tmb se podría usar algo como un div, pero tiene implicación visual
