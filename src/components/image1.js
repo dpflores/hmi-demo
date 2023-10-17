@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useCallback, useState } from 'react';
 
 import sensorUrl from './images/senor_nivel.png';
 import sensor2Url from './images/VVB001.png';
@@ -14,6 +14,7 @@ import ledonUrl from './images/led_on.png';
 import ledoffUrl from './images/led_off.png';
 
 import { useEffect } from 'react';
+import { useSize } from '../hooks/size';
 
 
 export default Draw;
@@ -22,6 +23,18 @@ function Draw(){
 
 
   const [data_json, setData] = useState({});
+  const [portrait, setPortrait] = useState(true);
+  const {setSize} = useSize()
+
+  const listener = useCallback((e)=>{
+      if(window.innerWidth > window.innerHeight) {
+        setPortrait(false);
+        setSize("vh")
+      } else {
+        setPortrait(true);
+        setSize("vw")
+      }
+  }, [setPortrait, setSize])
 
   useEffect(() => {
     const fetchData = () => {
@@ -36,7 +49,8 @@ function Draw(){
           console.log(err.message);
         });
     };
-
+    window.addEventListener("resize", listener)
+    listener()
     // Ejecutar fetchData inicialmente
     fetchData();
 
@@ -44,30 +58,32 @@ function Draw(){
     const intervalId = setInterval(fetchData, 200);
 
     // Limpieza cuando el componente se desmonta
-    return () => clearInterval(intervalId);
+    return () => {clearInterval(intervalId);
+      window.removeEventListener("resize", listener)
+    }
   }, []);
 
   return (
-    <Fragment>
+    <div style={{
+      position: "relative",
+      height: portrait ? "40vh" : "100vh"
+    }}>
       <Header width={17} height={10} left={0} top={0}/>
-      <Connections width={100} height={25} left={0} top={10}/>
-      <TankSide width={25} height={50} left={70} top={30}
+      <Connections width={100} height={25} left={0} top={12}/>
+      <TankSide width={25} height={50} left={70} top={32}
       led2={data_json.led2} led3={data_json.led3*100} text5={Math.round(data_json.text5*100)/100}/>
-      <MotorSide width={30} height={50} left={30} top={30} text01={Math.round(data_json.text01*100)/100}
+      <MotorSide width={30} height={50} left={30} top={32} text01={Math.round(data_json.text01*100)/100}
       text1={Math.round(data_json.text1*100)/100} text2={Math.round(data_json.text2*100)/100} text3={Math.round(data_json.text3*100)/100} text4={Math.round(data_json.text4*100)/100}/>
-      <BeltSide width={30} height={50} left={0} top={30} text0={Math.round(data_json.text0*100)/100}
+      <BeltSide width={30} height={50} left={0} top={32} text0={Math.round(data_json.text0*100)/100}
       led0={data_json.led0} led1={data_json.led1}/>
-  
-      
-
-    </Fragment>
+    </div>
   )
 }
 
 function Header({width, height,top, left}){
   return(
     <div style={{ position: 'absolute', width: `${width}%`, height:`${height}%`, top: `${top}%`, left: `${left}%`}}>
-    <img src={acmeUrl} alt="Background" style={{position: 'absolute', width: '100%', height: '100%'}} />
+    <img src={acmeUrl} alt="Background" style={{ margin: 16,position: 'absolute', width: '100%', height: '100%', objectFit: 'contain'}} />
     </div>
   )
 
@@ -163,19 +179,19 @@ function MotorSide({width, height,top, left, text01, text1,text2,text3,text4}){
       <div style={{ position: 'absolute', width: `${width}%`, height:`${height}%`, top: `${top}%`, left: `${left}%`}}>
     <MotorImage />
 
-    <Label label="Crest" top="60" left="65" color="orange" fontWeight="bold"/>
+    <Label label="Crest" top="61" left="65" color="orange" fontWeight="bold"/>
     <TextBox top="60" left="80" length="30" height="6" value={text01} units=""/>
 
-    <Label label="Temp" top="50" left="65" color="orange" fontWeight="bold"/>
+    <Label label="Temp" top="51" left="65" color="orange" fontWeight="bold"/>
     <TextBox top="50" left="80" length="30" height="6" value={text1} units="°C"/>
 
-    <Label label="a RMS" top="40" left="65" color="orange"fontWeight="bold"/>
+    <Label label="a RMS" top="41" left="65" color="orange"fontWeight="bold"/>
     <TextBox top="40" left="80" length="30" height="6" value={text2} units="m/s"/>
 
-    <Label label="v RMS" top="30" left="65" color="orange"fontWeight="bold"/>
+    <Label label="v RMS" top="31" left="65" color="orange"fontWeight="bold"/>
     <TextBox top="30" left="80" length="30" height="6" value={text3} units="m/s"/>
 
-    <Label label="a Peak" top="20" left="65" color="orange"fontWeight="bold"/>
+    <Label label="a Peak" top="21" left="65" color="orange"fontWeight="bold"/>
     <TextBoxSquared top="20" left="80" length="30" height="6" value={text4} units="m/s"/>
 
     <TextBubble text="AIT1"size={10} top={0} left={65}/>
@@ -342,7 +358,7 @@ function TankImage({text5}) {
 
 
   function Label({ label,top, left, fontSize, color,fontWeight}) {
- 
+    const {size} = useSize()
   
     const labelStyle = {
       position: 'absolute',
@@ -352,7 +368,7 @@ function TankImage({text5}) {
       marginRight: '5%',
       // fontSize: `${fontSize}em`,
       // fontSize: `${fontSize}vh`|| '3vh',
-      fontSize: '2.5vh',
+      fontSize: `${size === 'vw' ? '1.5' : '2'}${size}`,
       fontWeight: `${fontWeight}`,
     };
   
@@ -363,7 +379,8 @@ function TankImage({text5}) {
   }
 
   function TextBox({value, units, length, height, left, top}){
-  
+    const {size} = useSize()
+
     return (
     <div
       style={{
@@ -377,7 +394,10 @@ function TankImage({text5}) {
         backgroundColor: 'white', // Fondo blanco
         border: '0.1em solid black', // Borde de 1 píxel de ancho, color negro
         height: `${height}%`,
-        fontSize: '2vh',
+        fontSize: `2${size}`,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
       }}
     >
       {value} {units}
@@ -390,6 +410,7 @@ function TankImage({text5}) {
       verticalAlign: 'top',
       fontSize: '0.7em', // Tamaño de fuente más pequeño para el exponente
     };
+    const {size} = useSize()
 
     return (
     <div
@@ -404,7 +425,10 @@ function TankImage({text5}) {
         backgroundColor: 'white', // Fondo blanco
         border: '0.1em solid black', // Borde de 1 píxel de ancho, color negro
         height: `${height}%`,
-        fontSize: '2vh',
+        fontSize: `2${size}`,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
       }}
     >
       {value} {units}<sup style={unitsStyle}>2</sup>
@@ -413,6 +437,8 @@ function TankImage({text5}) {
   }
 
 function TextBubble({ text, size, top, left}) {
+  const {size : size2} = useSize()
+
   return (
     <div
       style={{
@@ -427,9 +453,11 @@ function TextBubble({ text, size, top, left}) {
         backgroundColor: 'white', // Fondo blanco
         border: '0.2em solid black', // Borde de 2 píxeles de ancho, color negro
         textAlign: 'center',
-        lineHeight: '250%', // Centra verticalmente el contenido del círculo
         color: 'black', // Color del texto
-        fontSize: '2vh'
+        fontSize: `${size2 === 'vw' ? '1.5' : '2'}${size2}`,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
       }}
     >
       {text}

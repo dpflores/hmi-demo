@@ -6,6 +6,7 @@ import { Fragment } from 'react';
 
 
 import Draw from './components/image1';
+import { SizeProvider } from './hooks/size';
 
 
 export function App() {
@@ -15,7 +16,9 @@ export function App() {
     // se puede usar <> </> pero no es compatible con todos los navegadores 
     <Fragment> 
   
-      <Draw />
+        <SizeProvider>
+        <Draw />
+        </SizeProvider>
     
     </Fragment>
   );
