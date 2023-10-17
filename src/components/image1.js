@@ -139,7 +139,7 @@ function BeltSide({width, height,top, left, led0, led1, text0}){
 
 
       <Label label="Temp" top="35" left="47" color="orange" fontWeight="bold"/>
-      <TextBox top="35" left="60" length="20" height="6" value={text0} units="°C"/>
+      <TextBox top="35" left="62" length="23" height="6" value={text0} units="°C"/>
 
       <TextBubble text="TIT"size={10} top={20} left={45} />
       <Label label="TW2000" top="20" left="60" color="black" fontWeight="bold" fontSize={1.4}/>
@@ -180,19 +180,19 @@ function MotorSide({width, height,top, left, text01, text1,text2,text3,text4}){
     <MotorImage />
 
     <Label label="Crest" top="61" left="65" color="orange" fontWeight="bold"/>
-    <TextBox top="60" left="80" length="30" height="6" value={text01} units=""/>
+    <TextBox top="60" left="82" length="30" height="6" value={text01} units=""/>
 
     <Label label="Temp" top="51" left="65" color="orange" fontWeight="bold"/>
-    <TextBox top="50" left="80" length="30" height="6" value={text1} units="°C"/>
+    <TextBox top="50" left="82" length="30" height="6" value={text1} units="°C"/>
 
     <Label label="a RMS" top="41" left="65" color="orange"fontWeight="bold"/>
-    <TextBox top="40" left="80" length="30" height="6" value={text2} units="m/s"/>
+    <TextBox top="40" left="82" length="30" height="6" value={text2} units="m/s"/>
 
     <Label label="v RMS" top="31" left="65" color="orange"fontWeight="bold"/>
-    <TextBox top="30" left="80" length="30" height="6" value={text3} units="m/s"/>
+    <TextBox top="30" left="82" length="30" height="6" value={text3} units="m/s"/>
 
     <Label label="a Peak" top="21" left="65" color="orange"fontWeight="bold"/>
-    <TextBoxSquared top="20" left="80" length="30" height="6" value={text4} units="m/s"/>
+    <TextBoxSquared top="20" left="82" length="30" height="6" value={text4} units="m/s"/>
 
     <TextBubble text="AIT1"size={10} top={0} left={65}/>
     <Label label="VVB021" top="3" left="85" color="black" fontWeight="bold" fontSize={1.5}/>
